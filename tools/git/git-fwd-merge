@@ -52,5 +52,8 @@ fi
 # Clean up
 rm -fr ${tmpMessageFile}
 
+# Show diff
+git log --pretty=oneline --abbrev-commit ${github_remote}/${currentBranch}..${currentBranch}
+
 # What's next
 echo "We're done! Please double check using 'git log -p' and 'git push' when you're sure."

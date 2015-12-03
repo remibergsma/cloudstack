@@ -228,6 +228,8 @@ fi
 
 # What's next
 echo "INFO: ***********************************************************************************"
+git log --pretty=oneline --abbrev-commit ${github_remote}/${currentBranch}..${currentBranch}
+echo "INFO: ***********************************************************************************"
 echo "INFO: Merged successfully! Please double check using 'git log -p' and 'git push' when you're sure."
 echo "INFO: About commits: there should be ${prCommits} from the PR plus 1 merge commit."
 echo
