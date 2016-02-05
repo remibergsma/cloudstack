@@ -228,8 +228,29 @@ class CsAcl(CsDataBag):
 
         def process(self, direction, rule_list, base):
             count = base
-            for i in rule_list:
+            #logging.debug("[DEBUGGING] dev %s direction %s rule_list %s", self.device, direction, rule_list)
+            rule_list_splitted = []
+            for rule in rule_list:
+                if ',' in rule['cidr']:
+                    #logging.debug("[DEBUGGING] cidrlist found: %s", rule['cidr'])
+                    cidrs = rule['cidr'].split(',')
+                    for cidr in cidrs:
+                        new_rule = {
+                            'cidr': cidr,
+                            'last_port': rule['last_port'],
+                            'type': rule['type'],
+                            'first_port': rule['first_port'],
+                            'allowed': rule['allowed']
+                        }
+                        rule_list_splitted.append(new_rule)
+                else:
+                    #logging.debug("[DEBUGGING] cidr found: %s", rule['cidr'])
+                    rule_list_splitted.append(rule)
+
+            #logging.debug("[DEBUGGING] dev %s direction %s rule_list_splitted %s", self.device, direction, rule_list_splitted)
+            for i in rule_list_splitted:
                 r = self.AclRule(direction, self, i, self.config, count)
+                #logging.debug("[DEBUGGING] rule %s", vars(r))
                 r.create()
                 count += 1
 
